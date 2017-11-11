@@ -2,7 +2,7 @@ package pojo;
 
 public class Quarto {
 
-	private long id_quarto;
+	private long idQuarto;
 	private boolean disponivel;
 	private boolean limpo;
 
@@ -10,18 +10,18 @@ public class Quarto {
 
 	}
 
-	public Quarto(long id_quarto, boolean disponivel, boolean limpo) {
-		this.id_quarto = id_quarto;
+	public Quarto(long idQuarto, boolean disponivel, boolean limpo) {
+		this.idQuarto = idQuarto;
 		this.disponivel = disponivel;
 		this.limpo = limpo;
 	}
 
-	public long getId_quarto() {
-		return id_quarto;
+	public long getIdQuarto() {
+		return idQuarto;
 	}
 
-	public void setId_quarto(long id_quarto) {
-		this.id_quarto = id_quarto;
+	public void setIdQuarto(long idQuarto) {
+		this.idQuarto = idQuarto;
 	}
 
 	public boolean isDisponivel() {

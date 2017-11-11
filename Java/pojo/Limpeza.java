@@ -2,34 +2,34 @@ package pojo;
 
 public class Limpeza {
 
-	private long cod_limpeza;
-	private String data_hora;
+	private long codLimpeza;
+	private String dataHora;
 	private String descricao;
 
 	public Limpeza() {
 
 	}
 
-	public Limpeza(long cod_limpeza, String data_hora, String descricao) {
-		this.cod_limpeza = cod_limpeza;
-		this.data_hora = data_hora;
+	public Limpeza(long codLimpeza, String dataHora, String descricao) {
+		this.codLimpeza = codLimpeza;
+		this.dataHora = dataHora;
 		this.descricao = descricao;
 	}
 
-	public long getCod_limpeza() {
-		return cod_limpeza;
+	public long getCodLimpeza() {
+		return codLimpeza;
 	}
 
-	public void setCod_limpeza(long cod_limpeza) {
-		this.cod_limpeza = cod_limpeza;
+	public void setCodLimpeza(long codLimpeza) {
+		this.codLimpeza = codLimpeza;
 	}
 
-	public String getData_hora() {
-		return data_hora;
+	public String getDataHora() {
+		return dataHora;
 	}
 
-	public void setData_hora(String data_hora) {
-		this.data_hora = data_hora;
+	public void setDataHora(String dataHora) {
+		this.dataHora = dataHora;
 	}
 
 	public String getDescricao() {

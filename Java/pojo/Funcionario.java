@@ -2,7 +2,7 @@ package pojo;
 
 public class Funcionario {
 
-	private long id_funcionario;
+	private long idFuncionario;
 	private String login;
 	private String senha;
 	private String nome;
@@ -14,9 +14,9 @@ public class Funcionario {
 		
 	}
 
-	public Funcionario(long id_funcionario, String login, String senha, String nome, String sobrenome, String telefone,
+	public Funcionario(long idFuncionario, String login, String senha, String nome, String sobrenome, String telefone,
 			String cpf) {
-		this.id_funcionario = id_funcionario;
+		this.idFuncionario = idFuncionario;
 		this.login = login;
 		this.senha = senha;
 		this.nome = nome;
@@ -25,12 +25,12 @@ public class Funcionario {
 		this.cpf = cpf;
 	}
 
-	public long getId_funcionario() {
-		return id_funcionario;
+	public long getIdFuncionario() {
+		return idFuncionario;
 	}
 
-	public void setId_funcionario(long id_funcionario) {
-		this.id_funcionario = id_funcionario;
+	public void setIdFuncionario(long idFuncionario) {
+		this.idFuncionario = idFuncionario;
 	}
 
 	public String getLogin() {
