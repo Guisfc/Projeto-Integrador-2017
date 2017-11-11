@@ -1,0 +1,24 @@
+				System.out.println("------------\n1. Listar\n2. Inserir\n3. Editar\n4. Deletar\n------------");
+				menu = sc.nextInt();
+				if (menu == 1) { //LISTAR SETORES -->
+					List<Setor> listaSetor = setorDAO.pesquisar(); //PERCORRE TABELA SETOR
+					for (Setor setor : listaSetor) {
+						System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getSetor() + " | Salario: " + setor.getSalario() + "\n");
+					}
+				} else if (menu == 2) { //INSERIR SETOR -->
+					Setor setor = new Setor();
+					System.out.println("Informe um nome para o setor:"); setor.setSetor(sc.next());
+					System.out.println("Informe o salário do setor:"); setor.setSalario(sc.nextDouble());
+					setorDAO.salvar(setor);
+					System.out.println("\n> Setor (" + setor.getSetor() + ") cadastrado com sucesso!\n");
+				} else if (menu == 3) { //EDITAR SETOR
+					Setor setor = new Setor();
+					System.out.println("Informe o (ID) do setor que deseja editar:"); setor.setCodSetor(sc.nextLong());
+					System.out.println("Informe um novo nome para o setor:"); setor.setSetor(sc.next());
+					System.out.println("Informe o novo salário do setor:"); setor.setSalario(sc.nextDouble());
+					setorDAO.editar(setor);
+					System.out.println("\n> Setor editado com sucesso!\n");
+				} else if (menu == 4) { //DELETAR SETOR
+					System.out.println("Informe o (ID) do setor que deseja deletar:"); setorDAO.deletar(sc.nextLong());
+					System.out.println("\n> Setor deletado com sucesso!\n");
+				}
