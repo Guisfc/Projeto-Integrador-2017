@@ -2,34 +2,34 @@ package pojo;
 
 public class Setor {
 
-	private long idSetor;
-	private String tipo;
+	private long codSetor;
+	private String setor;
 	private double salario;
 
 	public Setor() {
 
 	}
 
-	public Setor(long idSetor, String tipo, double salario) {
-		this.idSetor = idSetor;
-		this.tipo = tipo;
+	public Setor(long codSetor, String setor, double salario) {
+		this.codSetor = codSetor;
+		this.setor = setor;
 		this.salario = salario;
 	}
 
-	public long getIdSetor() {
-		return idSetor;
+	public long getCodSetor() {
+		return codSetor;
 	}
 
-	public void setIdSetor(long idSetor) {
-		this.idSetor = idSetor;
+	public void setCodSetor(long codSetor) {
+		this.codSetor = codSetor;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public String getSetor() {
+		return setor;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setSetor(String setor) {
+		this.setor = setor;
 	}
 
 	public double getSalario() {
