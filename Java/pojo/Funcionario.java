@@ -1,6 +1,6 @@
 package pojo;
 
-public class Funcionario {
+public class Funcionario extends Setor {
 
 	private long idFuncionario;
 	private String login;
@@ -9,13 +9,14 @@ public class Funcionario {
 	private String sobrenome;
 	private String telefone;
 	private String cpf;
+	Setor codSetor;
 
 	public Funcionario() {
-		
+
 	}
 
 	public Funcionario(long idFuncionario, String login, String senha, String nome, String sobrenome, String telefone,
-			String cpf) {
+			String cpf, Setor codSetor) {
 		this.idFuncionario = idFuncionario;
 		this.login = login;
 		this.senha = senha;
@@ -23,6 +24,7 @@ public class Funcionario {
 		this.sobrenome = sobrenome;
 		this.telefone = telefone;
 		this.cpf = cpf;
+		this.codSetor = codSetor;
 	}
 
 	public long getIdFuncionario() {
