@@ -33,7 +33,7 @@ PRIMARY KEY(id_categoria)
 CREATE TABLE quarto(
 id_quarto SMALLINT UNIQUE NOT NULL AUTO_INCREMENT,
 disponivel TINYINT NOT NULL,
-limpeza TINYINT NOT NULL,
+limpo TINYINT NOT NULL,
 id_categoria TINYINT NOT NULL,
 PRIMARY KEY(id_quarto),
 FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
