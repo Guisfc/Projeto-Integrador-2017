@@ -2,6 +2,7 @@ package apresentacao;
 
 public interface Menu {
 	
+	public void autenticar();
 	public void setor();
 	public void funcionario();
 	public void limpeza();

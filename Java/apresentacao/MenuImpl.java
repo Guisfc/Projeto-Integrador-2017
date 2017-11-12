@@ -3,9 +3,11 @@ package apresentacao;
 import java.util.List;
 import java.util.Scanner;
 
+import persistencia.AutenticacaoDAO;
 import persistencia.FuncionarioDAO;
 import persistencia.LimpezaDAO;
 import persistencia.SetorDAO;
+import pojo.Autenticacao;
 import pojo.Funcionario;
 import pojo.Limpeza;
 import pojo.Setor;
@@ -18,6 +20,7 @@ public class MenuImpl implements Menu {
 	SetorDAO setorDAO = new SetorDAO();
 	FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 	LimpezaDAO limpezaDAO = new LimpezaDAO();
+	AutenticacaoDAO autenticacaoDAO = new AutenticacaoDAO();
 	// FIM DA INICIALIZAÇÃO -->
 	
 	int menu; //USADA PARA ENTRAR NAS OPCOES -->
@@ -25,7 +28,25 @@ public class MenuImpl implements Menu {
 	public MenuImpl() {
 		
 	}
-
+	
+	@Override
+	public void autenticar() {
+		Autenticacao autenticacao = new Autenticacao();
+		do {
+			System.out.printf("Login: "); autenticacao.setLogin(sc.next());
+			System.out.printf("Senha: "); autenticacao.setSenha(sc.next());
+			
+			autenticacaoDAO.autenticar(autenticacao, "cliente");
+			if (autenticacao.getTipo() != 1) {
+				autenticacaoDAO.autenticar(autenticacao, "funcionario");
+			}
+			if (autenticacao.getTipo() == 0) {
+				System.out.println("Usuario ou senha incorretos, tente novamente.\n");
+			}
+		} while (autenticacao.getTipo() != 1 && autenticacao.getTipo() != 2);
+		System.out.println("Entrou com sucesso!\n");
+	}
+	
 	@Override
 	public void setor() {
 		System.out.println("------------\n1. Listar\n2. Inserir\n3. Editar\n4. Deletar\n------------");
@@ -226,5 +247,7 @@ public class MenuImpl implements Menu {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

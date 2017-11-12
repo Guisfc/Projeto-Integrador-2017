@@ -14,6 +14,9 @@ public class Main {
 		int menu; //USADA PARA ENTRAR NAS OPCOES -->
 
 		// INICIO DO MENU -->
+		
+		hotel.autenticar(); //FAZ A AUTENTICACAO DO USUARIO
+		
 		do {
 			System.out.println("--- Menu ---\n1. Setores\n2. Funcionarios\n3. Limpeza\n4. Sair\n------------");
 			menu = sc.nextInt();
