@@ -2,7 +2,7 @@ package pojo;
 
 public class Setor {
 
-	private long codSetor;
+	protected long codSetor;
 	private String setor;
 	private double salario;
 

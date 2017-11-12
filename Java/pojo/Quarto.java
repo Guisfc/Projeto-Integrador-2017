@@ -7,7 +7,7 @@ public class Quarto {
 	private boolean limpo;
 
 	public Quarto() {
-
+		
 	}
 
 	public Quarto(long idQuarto, boolean disponivel, boolean limpo) {
