@@ -11,6 +11,7 @@ import pojo.Limpeza;
 import pojo.Setor;
 
 public class MenuImpl implements Menu {
+	
 	Scanner sc = new Scanner(System.in);
 	
 	// INICIALIZANDO DAO's -->
@@ -133,6 +134,7 @@ public class MenuImpl implements Menu {
 		menu = 0; // ZERA A VARIAVEL PARA O MENU RODAR NOVAMENTE -->
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void limpeza() {
 		System.out.println("------------\n1. Listar\n2. Inserir\n3. Editar\n4. Deletar\n------------");
@@ -140,12 +142,13 @@ public class MenuImpl implements Menu {
 		if (menu == 1) { //LISTAR LIMPEZA -->
 			List<Limpeza> listaLimpeza = limpezaDAO.pesquisar(); //PERCORRE TABELA LIMPEZA
 			for (Limpeza limpeza : listaLimpeza) {
-				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataHora() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
+				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
 			}
 		} else if (menu == 2) { //INSERIR LIMPEZA -->
 			Limpeza limpeza = new Limpeza();
-			System.out.println("Informe a data que a limpeza foi efetuada (dd/mm/aaaa):"); limpeza.setDataHora(sc.next()); //arrumar nextline
-			System.out.println("Informe uma descricao se necessario: (ex: itens quebrados)"); limpeza.setDescricao(sc.next()); //arrumar nextline
+			Scanner sc = new Scanner(System.in); //GAMBIARRA PRA O NEXTLINE NAO PULAR ETAPAS
+			System.out.println("Informe a data que a limpeza foi efetuada (dd/mm/aaaa):"); limpeza.setData(sc.nextLine());
+			System.out.println("Informe uma descricao se necessario: (ex: itens quebrados)"); limpeza.setDescricao(sc.nextLine());
 			System.out.println("Informe o funcionario que efetuou a limpeza:");
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
@@ -162,14 +165,14 @@ public class MenuImpl implements Menu {
 			
 			List<Limpeza> listaLimpeza = limpezaDAO.pesquisar(); //PERCORRE TABELA LIMPEZA
 			for (Limpeza limpeza : listaLimpeza) {
-				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataHora() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
+				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
 			}
 			
 			Limpeza limpeza = new Limpeza();
 			System.out.println("Informe o (COD) da limpeza que deseja editar:"); limpeza.setCodLimpeza(sc.nextLong());
-			System.out.println("-- Insira os novos dados --");
-			System.out.println("Informe a data/hora que a limpeza foi efetuada (dd/mm/aaaa hh:mm):"); limpeza.setDataHora(sc.next());
-			System.out.println("Informe uma descricao se necessario: (ex: itens quebrados)"); limpeza.setDescricao(sc.next());
+			Scanner sc = new Scanner(System.in); //GAMBIARRA PRA O NEXTLINE NAO PULAR ETAPAS
+			System.out.println("Informe a data que a limpeza foi efetuada (dd/mm/aaaa):"); limpeza.setData(sc.nextLine());
+			System.out.println("Informe uma descricao se necessario: (ex: itens quebrados)"); limpeza.setDescricao(sc.nextLine());
 			System.out.println("Informe o funcionario que efetuou a limpeza:");
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
@@ -185,7 +188,7 @@ public class MenuImpl implements Menu {
 			
 			List<Limpeza> listaLimpeza = limpezaDAO.pesquisar(); //PERCORRE TABELA LIMPEZA
 			for (Limpeza limpeza : listaLimpeza) {
-				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataHora() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
+				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
 			}
 			
 			System.out.println("Informe o (COD) da limpeza que deseja deletar:"); limpezaDAO.deletar(sc.nextLong());
