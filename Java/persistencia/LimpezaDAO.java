@@ -21,7 +21,7 @@ public class LimpezaDAO {
 		conexao.abrirConexao();
 		try {
 			PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
-			stmt.setString(1, limpeza.getDataHora());
+			stmt.setTimestamp(1, new java.sql.Timestamp(limpeza.getDataSql().getTime()));	//(1, new java.sql.Date(limpeza.getDataSql().getTime());  << SOMENTE DATA
 			stmt.setString(2, limpeza.getDescricao());
 			stmt.setLong(3, limpeza.getIdFuncionario());
 			stmt.setLong(4, limpeza.getIdQuarto());
@@ -53,7 +53,7 @@ public class LimpezaDAO {
 		conexao.abrirConexao();
 		try {
 			PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
-			stmt.setString(1, limpeza.getDataHora());
+			stmt.setTimestamp(1, new java.sql.Timestamp(limpeza.getDataSql().getTime()));
 			stmt.setString(2, limpeza.getDescricao());
 			stmt.setLong(3, limpeza.getIdFuncionario());
 			stmt.setLong(4, limpeza.getIdQuarto());
@@ -78,7 +78,7 @@ public class LimpezaDAO {
 			while (rs.next()) {
 				Limpeza limpeza = new Limpeza();
 				limpeza.setCodLimpeza(rs.getLong("cod_limpeza"));
-				limpeza.setDataHora(rs.getString("data_hora"));
+				limpeza.setDataSql(rs.getTimestamp("data_hora"));
 				limpeza.setDescricao(rs.getString("descricao"));
 				limpeza.setIdFuncionario(rs.getLong("id_funcionario"));
 				limpeza.setIdQuarto(rs.getLong("id_quarto"));
