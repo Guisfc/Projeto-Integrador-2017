@@ -18,7 +18,7 @@ public class Main {
 		hotel.autenticar(); //FAZ A AUTENTICACAO DO USUARIO
 		
 		do {
-			System.out.println("--- Menu ---\n1. Setores\n2. Funcionarios\n3. Limpeza\n4. Sair\n------------");
+			System.out.println("--- Menu ---\n1. Setores\n2. Funcionarios\n3. Clientes\n4. Limpeza\n5. Sair\n------------");
 			menu = sc.nextInt();
 			switch (menu) {
 				case 1: // SETORES -->
@@ -29,11 +29,15 @@ public class Main {
 					hotel.funcionario();
 					break;
 					
-				case 3: // LIMPEZA -->
+				case 3: // CLIENTES -->
+					hotel.cliente();
+					break;
+					
+				case 4: // LIMPEZA -->
 					hotel.limpeza();
 					break;
 					
-				case 4: //FECHAR SISTEMA -->
+				case 5: //FECHAR SISTEMA -->
 					System.out.println("Sistema fechado com sucesso!");
 					break;
 			}

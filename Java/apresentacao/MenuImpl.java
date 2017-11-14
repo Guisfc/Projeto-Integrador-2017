@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import persistencia.AutenticacaoDAO;
+import persistencia.ClienteDAO;
 import persistencia.FuncionarioDAO;
 import persistencia.LimpezaDAO;
 import persistencia.SetorDAO;
 import pojo.Autenticacao;
+import pojo.Cliente;
 import pojo.Funcionario;
 import pojo.Limpeza;
 import pojo.Setor;
@@ -21,6 +23,7 @@ public class MenuImpl implements Menu {
 	FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 	LimpezaDAO limpezaDAO = new LimpezaDAO();
 	AutenticacaoDAO autenticacaoDAO = new AutenticacaoDAO();
+	ClienteDAO clienteDAO = new ClienteDAO();
 	// FIM DA INICIALIZAÇÃO -->
 	
 	int menu; //USADA PARA ENTRAR NAS OPCOES -->
@@ -168,7 +171,7 @@ public class MenuImpl implements Menu {
 		} else if (menu == 2) { //INSERIR LIMPEZA -->
 			Limpeza limpeza = new Limpeza();
 			Scanner sc = new Scanner(System.in); //GAMBIARRA PRA O NEXTLINE NAO PULAR ETAPAS
-			System.out.println("Informe a data que a limpeza foi efetuada (dd/mm/aaaa):"); limpeza.setData(sc.nextLine());
+			System.out.println("Informe a data que a limpeza foi efetuada (dd/mm/aaaa HH:mm):"); limpeza.setData(sc.nextLine());
 			System.out.println("Informe uma descricao se necessario: (ex: itens quebrados)"); limpeza.setDescricao(sc.nextLine());
 			System.out.println("Informe o funcionario que efetuou a limpeza:");
 			
@@ -238,8 +241,54 @@ public class MenuImpl implements Menu {
 
 	@Override
 	public void cliente() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("------------\n1. Listar\n2. Inserir\n3. Editar\n4. Deletar\n------------");
+		menu = sc.nextInt();
+		if (menu == 1) { //LISTAR CLIENTE -->
+			List<Cliente> listaClientes = clienteDAO.buscarTodos(); //PERCORRE TABELA CLIENTE
+			for (Cliente cliente : listaClientes) {
+				System.out.println("ID: " + cliente.getIdCliente() + " | Nome: " + cliente.getNome() + " " + cliente.getSobrenome() +  " | Login: " + cliente.getLogin() +  " | Senha: " + cliente.getSenha() +  " | CPF: " + cliente.getCpf() +  " | Telefone: " + cliente.getTelefone() + "\n");
+			}
+		} else if (menu == 2) { //INSERIR CLIENTE -->
+			Cliente cliente = new Cliente();
+			System.out.println("Informe o primeiro nome do cliente:"); cliente.setNome(sc.next());
+			System.out.println("Informe o sobrenome do cliente:"); cliente.setSobrenome(sc.next());
+			System.out.println("Informe um nome de usuario para o cliente:"); cliente.setLogin(sc.next());
+			System.out.println("Informe uma senha para o cliente:"); cliente.setSenha(sc.next());
+			System.out.println("Informe o CPF do cliente:"); cliente.setCpf(sc.next());
+			System.out.println("Informe o telefone do cliente:"); cliente.setTelefone(sc.next());
+						
+			clienteDAO.salvar(cliente);
+			System.out.println("\n> Cliente (" + cliente.getNome() + " " + cliente.getSobrenome() + ") cadastrado com sucesso!\n");
+		} else if (menu == 3) { //EDITAR CLIENTE
+			
+			List<Cliente> listaClientes = clienteDAO.buscarTodos(); //PERCORRE TABELA CLIENTE
+			for (Cliente cliente : listaClientes) {
+				System.out.println("ID: " + cliente.getIdCliente() + " | Nome: " + cliente.getNome() + " " + cliente.getSobrenome() +  " | Login: " + cliente.getLogin() +  " | Senha: " + cliente.getSenha() +  " | CPF: " + cliente.getCpf() +  " | Telefone: " + cliente.getTelefone() + "\n");
+			}
+			
+			Cliente cliente = new Cliente();
+			System.out.println("Informe o (ID) do cliente que deseja editar:"); cliente.setIdCliente(sc.nextLong());
+			System.out.println("-- Insira os novos dados --");
+			System.out.println("Informe o primeiro nome do cliente:"); cliente.setNome(sc.next());
+			System.out.println("Informe o sobrenome do cliente:"); cliente.setSobrenome(sc.next());
+			System.out.println("Informe um nome de usuario para o cliente:"); cliente.setLogin(sc.next());
+			System.out.println("Informe uma senha para o cliente:"); cliente.setSenha(sc.next());
+			System.out.println("Informe o CPF do cliente:"); cliente.setCpf(sc.next());
+			System.out.println("Informe o telefone do cliente:"); cliente.setTelefone(sc.next());
+			
+			clienteDAO.editar(cliente);
+			System.out.println("\n> Cliente editado com sucesso!\n");
+		} else if (menu == 4) { //DELETAR CLIENTE
+			
+			List<Cliente> listaClientes = clienteDAO.buscarTodos(); //PERCORRE TABELA CLIENTE
+			for (Cliente cliente : listaClientes) {
+				System.out.println("ID: " + cliente.getIdCliente() + " | Nome: " + cliente.getNome() + " " + cliente.getSobrenome() +  " | Login: " + cliente.getLogin() +  " | Senha: " + cliente.getSenha() +  " | CPF: " + cliente.getCpf() +  " | Telefone: " + cliente.getTelefone() + "\n");
+			}
+			
+			System.out.println("Informe o (ID) do cliente que deseja deletar:"); clienteDAO.deletarPorId(sc.nextLong());
+			System.out.println("\n> Cliente deletado com sucesso!\n");
+		}
+		menu = 0; // ZERA A VARIAVEL PARA O MENU RODAR NOVAMENTE -->
 	}
 
 	@Override
