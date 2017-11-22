@@ -1,5 +1,8 @@
 package pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cliente {
 
 	// ATRIBUTOS
@@ -10,10 +13,11 @@ public class Cliente {
 	private String senha;
 	private String cpf;
 	private String telefone;
+	private List<Reserva> listaReservas;
 
 	// CONSTRUTORES
 	public Cliente() {
-
+		this.listaReservas = new ArrayList<Reserva>();
 	}
 
 	public Cliente(long idCliente, String nome, String sobrenome, String login, String senha, String cpf, String telefone) {
@@ -81,6 +85,14 @@ public class Cliente {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Reserva> getListaReservas() {
+		return listaReservas;
+	}
+
+	public void setListaReservas(List<Reserva> listaReservas) {
+		this.listaReservas = listaReservas;
 	}
 
 }
