@@ -79,7 +79,5 @@ valor_total DOUBLE NOT NULL,
 PRIMARY KEY(cod_pagamento)
 );
 
-DROP TABLE limpeza;
-
 INSERT INTO categoria (id_categoria, tipo, descricao, valor_diaria) VALUES (null, 'teste', 'descricao teste', 300.00);
 INSERT INTO quarto (id_quarto, disponivel, limpo, id_categoria) VALUES (null, true, true, 1);
