@@ -118,16 +118,16 @@ public class MenuImpl implements Menu {
 			for (Setor setor : listaSetor) {
 				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getNomeSetor() + " | Salario: " + setor.getSalario() + "\n");
 			}
-			
-			System.out.println("Informe o (ID) do setor escolhido:"); funcionario.getSetor().setCodSetor(sc.nextLong());
-			
+                        
+			Setor setor = new Setor();
+			System.out.println("Informe o (ID) do setor escolhido:"); setor.setCodSetor(sc.nextLong()); funcionario.setSetor(setor);
 			funcionarioDAO.salvar(funcionario);
 			System.out.println("\n> Funcionario (" + funcionario.getNome() + " " + funcionario.getSobrenome() + ") cadastrado com sucesso!\n");
 		} else if (menu == 3) { //EDITAR FUNCIONARIO
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getNomeSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 			
 			Funcionario funcionario = new Funcionario();
@@ -146,7 +146,8 @@ public class MenuImpl implements Menu {
 				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getNomeSetor() + " | Salario: " + setor.getSalario() + "\n");
 			}
 			
-			System.out.println("Informe o (ID) do setor escolhido:"); funcionario.getSetor().setCodSetor(sc.nextLong());
+			Setor setor = new Setor();
+			System.out.println("Informe o (ID) do setor escolhido:"); setor.setCodSetor(sc.nextLong()); funcionario.setSetor(setor);
 			funcionarioDAO.editar(funcionario);
 			System.out.println("\n> Funcionario editado com sucesso!\n");
 		} else if (menu == 4) { //DELETAR FUNCIONARIO
