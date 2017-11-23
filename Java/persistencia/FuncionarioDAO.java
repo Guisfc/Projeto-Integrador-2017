@@ -59,7 +59,7 @@ public class FuncionarioDAO {
 	}
 
 	public Funcionario editar(Funcionario funcionario) {
-		String sql = "UPDATE funcionario SET nome=?, sobrenome=?, login=?, senha=?, cpf=?, telefone=? WHERE id_funcionario=?";
+		String sql = "UPDATE funcionario SET nome=?, sobrenome=?, login=?, senha=?, cpf=?, telefone=?, cod_setor=? WHERE id_funcionario=?";
 		conexao.abrirConexao();
 		try {
 			PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
@@ -69,7 +69,8 @@ public class FuncionarioDAO {
 			stmt.setString(4, funcionario.getSenha());
 			stmt.setString(5, funcionario.getCpf());
 			stmt.setString(6, funcionario.getTelefone());
-			stmt.setLong(7, funcionario.getSetor().getCodSetor());
+                        stmt.setLong(7, funcionario.getSetor().getCodSetor());
+			stmt.setLong(8, funcionario.getIdFuncionario());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
