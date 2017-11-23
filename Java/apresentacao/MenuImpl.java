@@ -8,6 +8,7 @@ import persistencia.ClienteDAO;
 import persistencia.FuncionarioDAO;
 import persistencia.LimpezaDAO;
 import persistencia.SetorDAO;
+import pojo.Administrador;
 import pojo.Autenticacao;
 import pojo.Cliente;
 import pojo.Funcionario;
@@ -24,7 +25,7 @@ public class MenuImpl implements Menu {
 	LimpezaDAO limpezaDAO = new LimpezaDAO();
 	AutenticacaoDAO autenticacaoDAO = new AutenticacaoDAO();
 	ClienteDAO clienteDAO = new ClienteDAO();
-	// FIM DA INICIALIZAÇÃO -->
+	// FIM DA INICIALIZAï¿½ï¿½O -->
 	
 	int menu; //USADA PARA ENTRAR NAS OPCOES -->
 
@@ -38,15 +39,18 @@ public class MenuImpl implements Menu {
 		do {
 			System.out.printf("Login: "); autenticacao.setLogin(sc.next());
 			System.out.printf("Senha: "); autenticacao.setSenha(sc.next());
-			
-			autenticacaoDAO.autenticar(autenticacao, "cliente");
-			if (autenticacao.getTipo() != 1) {
-				autenticacaoDAO.autenticar(autenticacao, "funcionario");
+			if (autenticacao.getLogin().equalsIgnoreCase(Administrador.getLogin()) && autenticacao.getSenha().equalsIgnoreCase(Administrador.getSenha())) {
+				autenticacao.setTipo(3);
+			} else {
+				autenticacaoDAO.autenticar(autenticacao, "cliente");
+				if (autenticacao.getTipo() != 1) {
+					autenticacaoDAO.autenticar(autenticacao, "funcionario");
+				}
+				if (autenticacao.getTipo() == 0) {
+					System.out.println("Usuario ou senha incorretos, tente novamente.\n");
+				}
 			}
-			if (autenticacao.getTipo() == 0) {
-				System.out.println("Usuario ou senha incorretos, tente novamente.\n");
-			}
-		} while (autenticacao.getTipo() != 1 && autenticacao.getTipo() != 2);
+		} while (autenticacao.getTipo() != 1 && autenticacao.getTipo() != 2 && autenticacao.getTipo() != 3);
 		System.out.println("Entrou com sucesso!\n");
 	}
 	
@@ -57,32 +61,32 @@ public class MenuImpl implements Menu {
 		if (menu == 1) { //LISTAR SETORES -->
 			List<Setor> listaSetor = setorDAO.pesquisar(); //PERCORRE TABELA SETOR
 			for (Setor setor : listaSetor) {
-				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getSetor() + " | Salario: " + setor.getSalario() + "\n");
+				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getNomeSetor() + " | Salario: " + setor.getSalario() + "\n");
 			}
 		} else if (menu == 2) { //INSERIR SETOR -->
 			Setor setor = new Setor();
-			System.out.println("Informe um nome para o setor:"); setor.setSetor(sc.next());
-			System.out.println("Informe o salário do setor:"); setor.setSalario(sc.nextDouble());
+			System.out.println("Informe um nome para o setor:"); setor.setNomeSetor(sc.next());
+			System.out.println("Informe o salï¿½rio do setor:"); setor.setSalario(sc.nextDouble());
 			setorDAO.salvar(setor);
-			System.out.println("\n> Setor (" + setor.getSetor() + ") cadastrado com sucesso!\n");
+			System.out.println("\n> Setor (" + setor.getNomeSetor() + ") cadastrado com sucesso!\n");
 		} else if (menu == 3) { //EDITAR SETOR
 			
 			List<Setor> listaSetor = setorDAO.pesquisar(); //PERCORRE TABELA SETOR
 			for (Setor setor : listaSetor) {
-				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getSetor() + " | Salario: " + setor.getSalario() + "\n");
+				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getNomeSetor() + " | Salario: " + setor.getSalario() + "\n");
 			}
 			
 			Setor setor = new Setor();
 			System.out.println("Informe o (ID) do setor que deseja editar:"); setor.setCodSetor(sc.nextLong());
-			System.out.println("Informe um novo nome para o setor:"); setor.setSetor(sc.next());
-			System.out.println("Informe o novo salário do setor:"); setor.setSalario(sc.nextDouble());
+			System.out.println("Informe um novo nome para o setor:"); setor.setNomeSetor(sc.next());
+			System.out.println("Informe o novo salï¿½rio do setor:"); setor.setSalario(sc.nextDouble());
 			setorDAO.editar(setor);
 			System.out.println("\n> Setor editado com sucesso!\n");
 		} else if (menu == 4) { //DELETAR SETOR
 			
 			List<Setor> listaSetor = setorDAO.pesquisar(); //PERCORRE TABELA SETOR
 			for (Setor setor : listaSetor) {
-				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getSetor() + " | Salario: " + setor.getSalario() + "\n");
+				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getNomeSetor() + " | Salario: " + setor.getSalario() + "\n");
 			}
 			
 			System.out.println("Informe o (ID) do setor que deseja deletar:"); setorDAO.deletar(sc.nextLong());
@@ -98,7 +102,7 @@ public class MenuImpl implements Menu {
 		if (menu == 1) { //LISTAR FUNCIONARIOS -->
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getNomeSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 		} else if (menu == 2) { //INSERIR FUNCIONARIO -->
 			Funcionario funcionario = new Funcionario();
@@ -112,10 +116,10 @@ public class MenuImpl implements Menu {
 			
 			List<Setor> listaSetor = setorDAO.pesquisar(); //PERCORRE TABELA SETOR
 			for (Setor setor : listaSetor) {
-				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getSetor() + " | Salario: " + setor.getSalario() + "\n");
+				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getNomeSetor() + " | Salario: " + setor.getSalario() + "\n");
 			}
 			
-			System.out.println("Informe o (ID) do setor escolhido:"); funcionario.setCodSetor(sc.nextLong());
+			System.out.println("Informe o (ID) do setor escolhido:"); funcionario.getSetor().setCodSetor(sc.nextLong());
 			
 			funcionarioDAO.salvar(funcionario);
 			System.out.println("\n> Funcionario (" + funcionario.getNome() + " " + funcionario.getSobrenome() + ") cadastrado com sucesso!\n");
@@ -123,7 +127,7 @@ public class MenuImpl implements Menu {
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 			
 			Funcionario funcionario = new Funcionario();
@@ -139,17 +143,17 @@ public class MenuImpl implements Menu {
 			
 			List<Setor> listaSetor = setorDAO.pesquisar(); //PERCORRE TABELA SETOR
 			for (Setor setor : listaSetor) {
-				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getSetor() + " | Salario: " + setor.getSalario() + "\n");
+				System.out.println("ID: " + setor.getCodSetor() + " | Setor: " + setor.getNomeSetor() + " | Salario: " + setor.getSalario() + "\n");
 			}
 			
-			System.out.println("Informe o (ID) do setor escolhido:"); funcionario.setCodSetor(sc.nextLong());
+			System.out.println("Informe o (ID) do setor escolhido:"); funcionario.getSetor().setCodSetor(sc.nextLong());
 			funcionarioDAO.editar(funcionario);
 			System.out.println("\n> Funcionario editado com sucesso!\n");
 		} else if (menu == 4) { //DELETAR FUNCIONARIO
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 			
 			System.out.println("Informe o (ID) do funcionario que deseja deletar:"); funcionarioDAO.deletar(sc.nextLong());
@@ -159,7 +163,7 @@ public class MenuImpl implements Menu {
 	}
 
 	@SuppressWarnings("resource")
-	@Override
+	@Override    
 	public void limpeza() {
 		System.out.println("------------\n1. Listar\n2. Inserir\n3. Editar\n4. Deletar\n------------");
 		menu = sc.nextInt();
@@ -177,7 +181,7 @@ public class MenuImpl implements Menu {
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 			
 			System.out.println("Digite o (ID) referente:"); limpeza.setIdFuncionario(sc.nextLong());
@@ -201,7 +205,7 @@ public class MenuImpl implements Menu {
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 			
 			System.out.println("Digite o (ID) referente:"); limpeza.setIdFuncionario(sc.nextLong());
