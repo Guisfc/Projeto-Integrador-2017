@@ -3,8 +3,10 @@ package persistencia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import pojo.Setor;
 
@@ -13,17 +15,21 @@ public class SetorDAO {
 	Conexao conexao;
 
 	public SetorDAO() {
-		this.conexao = new Conexao("localhost", "bd_hotel", "root", "root");
+		this.conexao = new Conexao("localhost", "bd_hotel", "root", "");
 	}
 
 	public Setor salvar(Setor setor) {
 		String sql = "INSERT INTO setor (cod_setor, setor, salario) VALUES (null,?,?)";
 		conexao.abrirConexao();
 		try {
-			PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
-			stmt.setString(1, setor.getSetor());
+			PreparedStatement stmt = conexao.getConexao().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, setor.getNomeSetor());
 			stmt.setDouble(2, setor.getSalario());
 			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+				setor.setCodSetor(rs.getLong(1));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -51,7 +57,7 @@ public class SetorDAO {
 		conexao.abrirConexao();
 		try {
 			PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
-			stmt.setString(1, setor.getSetor());
+			stmt.setString(1, setor.getNomeSetor());
 			stmt.setDouble(2, setor.getSalario());
 			stmt.setLong(3, setor.getCodSetor());
 			stmt.executeUpdate();
@@ -74,7 +80,7 @@ public class SetorDAO {
 			while (rs.next()) {
 				Setor setor = new Setor();
 				setor.setCodSetor(rs.getLong("cod_setor"));
-				setor.setSetor(rs.getString("setor"));
+				setor.setNomeSetor(rs.getString("setor"));
 				setor.setSalario(rs.getDouble("salario"));
 				listaSetor.add(setor);
 			}
