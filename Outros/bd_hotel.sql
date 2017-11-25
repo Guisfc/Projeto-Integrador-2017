@@ -1,9 +1,11 @@
 CREATE DATABASE bd_hotel;
 
+##DROP DATABASE bd_hotel;
+
 USE bd_hotel;
 
 CREATE TABLE setor(
-cod_setor TINYINT UNIQUE NOT NULL AUTO_INCREMENT,
+cod_setor BIGINT UNIQUE NOT NULL AUTO_INCREMENT,
 setor VARCHAR(25) UNIQUE NOT NULL,
 salario INT NOT NULL,
 PRIMARY KEY(cod_setor)
@@ -17,7 +19,7 @@ login VARCHAR(20) UNIQUE NOT NULL,
 senha VARCHAR(15) NOT NULL,
 cpf VARCHAR(14) NOT NULL,
 telefone VARCHAR(12) NOT NULL,
-cod_setor TINYINT NOT NULL,
+cod_setor BIGINT NOT NULL,
 PRIMARY KEY(id_funcionario),
 FOREIGN KEY(cod_setor) REFERENCES setor(cod_setor)
 );
@@ -79,5 +81,5 @@ valor_total DOUBLE NOT NULL,
 PRIMARY KEY(cod_pagamento)
 );
 
-INSERT INTO categoria (id_categoria, tipo, descricao, valor_diaria) VALUES (null, 'teste', 'descricao teste', 300.00);
-INSERT INTO quarto (id_quarto, disponivel, limpo, id_categoria) VALUES (null, true, true, 1);
+##INSERT INTO categoria (id_categoria, tipo, descricao, valor_diaria) VALUES (null, 'aaaa', 'descricao teste', 300.00);
+##INSERT INTO quarto (id_quarto, disponivel, limpo, id_categoria) VALUES (null, true, true, 1);
