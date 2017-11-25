@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import pojo.Categoria;
+import pojo.Cliente;
 
 import pojo.Quarto;
 import pojo.Reserva;
@@ -24,8 +26,8 @@ public class ReservaDAO {
         this.conexao.abrirConexao();
         try {
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setDate(1, new java.sql.Date(reserva.getDataEntrada().getTime()));
-            stmt.setDate(2, new java.sql.Date(reserva.getDataSaida().getTime()));
+            stmt.setDate(1, new java.sql.Date(reserva.getDataSqlEntrada().getTime()));
+            stmt.setDate(2, new java.sql.Date(reserva.getDataSqlSaida().getTime()));
             stmt.setLong(3, reserva.getQuarto().getIdQuarto());
             stmt.setLong(4, reserva.getCliente().getIdCliente());
             stmt.executeUpdate();
@@ -47,8 +49,8 @@ public class ReservaDAO {
         conexao.abrirConexao();
         try {
             PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
-            stmt.setDate(1, new java.sql.Date(reserva.getDataEntrada().getTime()));
-            stmt.setDate(2, new java.sql.Date(reserva.getDataSaida().getTime()));
+            stmt.setDate(1, new java.sql.Date(reserva.getDataSqlEntrada().getTime()));
+            stmt.setDate(2, new java.sql.Date(reserva.getDataSqlSaida().getTime()));
             stmt.setLong(3, reserva.getQuarto().getIdQuarto());
             stmt.setLong(4, reserva.getCliente().getIdCliente());
             stmt.setLong(5, reserva.getIdReserva());
@@ -89,10 +91,16 @@ public class ReservaDAO {
             if (rs.next()) {
                 reserva = new Reserva();
                 reserva.setIdReserva(rs.getLong("id_reserva"));
-                reserva.setDataEntrada(rs.getDate("data_entrada"));
-                reserva.setDataSaida(rs.getDate("data_saida"));
-                reserva.getQuarto().setIdQuarto(rs.getLong("id_quarto"));
-                reserva.getCliente().setIdCliente(rs.getLong("id_cliente"));
+                reserva.setDataSqlEntrada(rs.getDate("data_entrada"));
+                reserva.setDataSqlSaida(rs.getDate("data_saida"));
+                
+                Quarto quarto = new Quarto();
+                quarto.setIdQuarto(rs.getLong("id_quarto"));
+                reserva.setQuarto(quarto);
+                
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(rs.getLong("id_cliente"));
+                reserva.setCliente(cliente);
 
             }
         } catch (SQLException e) {
@@ -117,10 +125,19 @@ public class ReservaDAO {
                 Reserva reserva = new Reserva();
                 reserva = new Reserva();
                 reserva.setIdReserva(rs.getLong("id_reserva"));
-                reserva.setDataEntrada(rs.getDate("data_entrada"));
-                reserva.setDataSaida(rs.getDate("data_saida"));
-                reserva.getQuarto().setIdQuarto(rs.getLong("id_quarto"));
-                reserva.getCliente().setIdCliente(rs.getLong("id_cliente"));
+                reserva.setDataSqlEntrada(rs.getDate("data_entrada"));
+                reserva.setDataSqlSaida(rs.getDate("data_saida"));
+                
+                Quarto quarto = new Quarto();
+                quarto.setIdQuarto(rs.getLong("id_quarto"));
+                reserva.setQuarto(quarto);
+                
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(rs.getLong("id_cliente"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setSobrenome(rs.getString("sobrenome"));
+                reserva.setCliente(cliente);
+                
                 listaReservas.add(reserva);
             }
         } catch (SQLException e) {
@@ -147,7 +164,11 @@ public class ReservaDAO {
                 quarto.setIdQuarto(rs.getLong("id_quarto"));
                 quarto.setStatusDisponivel(rs.getInt("disponivel"));
                 quarto.setStatusLimpeza(rs.getInt("limpo"));
-                quarto.getCategoria().setIdCategoria(rs.getInt("id_categoria"));
+                
+                Categoria categoria = new Categoria();
+                categoria.setIdCategoria(rs.getInt("id_categoria"));
+                quarto.setCategoria(categoria);
+                
                 listaIds.add(quarto);
             }
             if (!listaIds.isEmpty()) {
