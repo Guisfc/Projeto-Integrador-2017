@@ -104,7 +104,6 @@ public class QuartoDAO {
     public List<Quarto> pesquisar() {
         List<Quarto> listaQuarto = new ArrayList<Quarto>();
         String sql = "SELECT id_quarto, disponivel, limpo, tipo FROM quarto INNER JOIN categoria ON quarto.id_categoria=categoria.id_categoria";
-        //String sql = "SELECT * FROM quarto";
         conexao.abrirConexao();
         try {
             PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
@@ -129,6 +128,35 @@ public class QuartoDAO {
             conexao.fecharConexao();
         }
         return listaQuarto;
+    }
+
+    public Quarto pesquisarPorId(long id) {
+        Quarto quarto = null;
+        String sql = "SELECT id_quarto, disponivel, limpo, tipo FROM quarto INNER JOIN categoria ON quarto.id_categoria=categoria.id_categoria WHERE id_quarto=?";
+        conexao.abrirConexao();
+        try {
+            PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                quarto = new Quarto();
+                quarto.setIdQuarto(rs.getLong("id_quarto"));
+                quarto.setStatusDisponivel(rs.getInt("disponivel"));
+                quarto.setStatusLimpeza(rs.getInt("limpo"));
+
+                Categoria categoria = new Categoria();
+                categoria.setTipo(rs.getString("tipo"));
+
+                quarto.setCategoria(categoria);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexao.fecharConexao();
+        }
+        return quarto;
     }
 
 }
