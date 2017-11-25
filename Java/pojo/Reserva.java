@@ -1,70 +1,109 @@
 package pojo;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Reserva {
+    
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    
+    // ATRIBUTOS
+    private long idReserva;
+    private Date dataSqlEntrada;
+    private Date dataSqlSaida;
+    private String dataEntrada;
+    private String dataSaida;
 
-	// ATRIBUTOS
-	private long idReserva;
-	private java.sql.Date dataEntrada;
-	private java.sql.Date dataSaida;
-	private Cliente cliente;
-	private Quarto quarto;
-	//
+    private Cliente cliente;
+    private Quarto quarto;
+    //
 
-	// CONSTRUTORES
-	public Reserva() {
-		this.cliente = new Cliente();
-		this.quarto = new Quarto();
-	}
+    // CONSTRUTORES
+    public Reserva() {
+        this.cliente = new Cliente();
+        this.quarto = new Quarto();
+    }
 
-	public Reserva(long idReserva, Date dataEntrada, Date dataSaida, Cliente cliente, Quarto quarto) {
-		this.idReserva = idReserva;
-		this.dataEntrada = dataEntrada;
-		this.dataSaida = dataSaida;
-		this.cliente = cliente;
-		this.quarto = quarto;
-	}
+    public Reserva(long idReserva, String dataEntrada, String dataSaida, Cliente cliente, Quarto quarto) {
+        this.idReserva = idReserva;
+        setDataEntrada(dataEntrada);
+        setDataSaida(dataSaida);
+        this.dataSaida = dataSaida;
+        this.cliente = cliente;
+        this.quarto = quarto;
+    }
 
-	// MÉTODOS
-	public long getIdReserva() {
-		return idReserva;
-	}
+    // Mï¿½TODOS
+    public long getIdReserva() {
+        return idReserva;
+    }
 
-	public void setIdReserva(long idReserva) {
-		this.idReserva = idReserva;
-	}
+    public void setIdReserva(long idReserva) {
+        this.idReserva = idReserva;
+    }
 
-	public Date getDataEntrada() {
-		return dataEntrada;
-	}
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-	public Date setDataEntrada(Date dataEntrada) {
-		return this.dataEntrada = dataEntrada;
-	}
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
-	public Date getDataSaida() {
-		return dataSaida;
-	}
+    public Quarto getQuarto() {
+        return quarto;
+    }
 
-	public void setDataSaida(Date dataSaida) {
-		this.dataSaida = dataSaida;
-	}
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
+    }
 
-	public Cliente getCliente() {
-		return cliente;
-	}
+    public Date getDataSqlEntrada() {
+        return dataSqlEntrada;
+    }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+    public void setDataSqlEntrada(Date dataSqlEntrada) {
+        this.dataSqlEntrada = dataSqlEntrada;
+    }
 
-	public Quarto getQuarto() {
-		return quarto;
-	}
+    public Date getDataSqlSaida() {
+        return dataSqlSaida;
+    }
 
-	public void setQuarto(Quarto quarto) {
-		this.quarto = quarto;
-	}
+    public void setDataSqlSaida(Date dataSqlSaida) {
+        this.dataSqlSaida = dataSqlSaida;
+    }
+
+    public String getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(String dataEntrada) {
+        this.dataEntrada = dataEntrada;
+        try {
+            this.dataSqlEntrada = format.parse(dataEntrada);
+        } catch (ParseException ex) {
+            Logger.getLogger(Reserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public String getDataSaida() {
+        return dataSaida;
+    }
+
+    public void setDataSaida(String dataSaida) {
+        this.dataSaida = dataSaida;
+        try {
+            this.dataSqlSaida = format.parse(dataSaida);
+        } catch (ParseException ex) {
+            Logger.getLogger(Reserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
 }
