@@ -5,80 +5,81 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Limpeza {
-	
-	SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	private long codLimpeza;
-	private String data;
-	private Date dataSql;
-	private String descricao;
-	private long idFuncionario;
-	private long idQuarto;
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	public Limpeza() {
+    private long codLimpeza;
+    private String data;
+    private Date dataSql;
+    private String descricao;
 
-	}
+    private Funcionario funcionario;
+    private Quarto quarto;
 
-	public Limpeza(long codLimpeza, String data, String descricao, long idFuncionario, long idQuarto) {
-		this.codLimpeza = codLimpeza;
-		setData(data);
-		this.descricao = descricao;
-		this.idFuncionario = idFuncionario;
-		this.idQuarto = idQuarto;
-	}
+    public Limpeza() {
 
-	public long getCodLimpeza() {
-		return codLimpeza;
-	}
+    }
 
-	public void setCodLimpeza(long codLimpeza) {
-		this.codLimpeza = codLimpeza;
-	}
+    public Limpeza(long codLimpeza, String data, String descricao, Funcionario funcionario, Quarto quarto) {
+        this.codLimpeza = codLimpeza;
+        setData(data);
+        this.descricao = descricao;
+        this.funcionario = funcionario;
+        this.quarto = quarto;
+    }
 
-	public String getData() {
-		return data;
-	}
+    public long getCodLimpeza() {
+        return codLimpeza;
+    }
 
-	public void setData(String data) {
-		this.data = data;
-		try {
-			this.dataSql = format.parse(data); //CONVERTE STRING PARA DATE
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-	}
+    public void setCodLimpeza(long codLimpeza) {
+        this.codLimpeza = codLimpeza;
+    }
 
-	public String getDescricao() {
-		return descricao;
-	}
+    public String getData() {
+        return data;
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public void setData(String data) {
+        this.data = data;
+        try {
+            this.dataSql = format.parse(data); //CONVERTE STRING PARA DATE
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-	public long getIdFuncionario() {
-		return idFuncionario;
-	}
+    }
 
-	public void setIdFuncionario(long idFuncionario) {
-		this.idFuncionario = idFuncionario;
-	}
+    public String getDescricao() {
+        return descricao;
+    }
 
-	public long getIdQuarto() {
-		return idQuarto;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	public void setIdQuarto(long idQuarto) {
-		this.idQuarto = idQuarto;
-	}
+    public Date getDataSql() {
+        return dataSql;
+    }
 
-	public Date getDataSql() {
-		return dataSql;
-	}
+    public void setDataSql(Date dataSql) {
+        this.dataSql = dataSql;
+    }
 
-	public void setDataSql(Date dataSql) {
-		this.dataSql = dataSql;
-	}
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public Quarto getQuarto() {
+        return quarto;
+    }
+
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
+    }
 
 }
