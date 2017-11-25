@@ -7,12 +7,15 @@ import persistencia.AutenticacaoDAO;
 import persistencia.ClienteDAO;
 import persistencia.FuncionarioDAO;
 import persistencia.LimpezaDAO;
+import persistencia.QuartoDAO;
 import persistencia.SetorDAO;
 import pojo.Administrador;
 import pojo.Autenticacao;
+import pojo.Categoria;
 import pojo.Cliente;
 import pojo.Funcionario;
 import pojo.Limpeza;
+import pojo.Quarto;
 import pojo.Setor;
 
 public class MenuImpl implements Menu {
@@ -25,6 +28,7 @@ public class MenuImpl implements Menu {
 	LimpezaDAO limpezaDAO = new LimpezaDAO();
 	AutenticacaoDAO autenticacaoDAO = new AutenticacaoDAO();
 	ClienteDAO clienteDAO = new ClienteDAO();
+        QuartoDAO quartoDAO = new QuartoDAO();
 	// FIM DA INICIALIZA��O -->
 	
 	int menu; //USADA PARA ENTRAR NAS OPCOES -->
@@ -171,53 +175,58 @@ public class MenuImpl implements Menu {
 		if (menu == 1) { //LISTAR LIMPEZA -->
 			List<Limpeza> listaLimpeza = limpezaDAO.pesquisar(); //PERCORRE TABELA LIMPEZA
 			for (Limpeza limpeza : listaLimpeza) {
-				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
+				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | Funcionario: " + limpeza.getFuncionario().getNome() + " " + limpeza.getFuncionario().getSobrenome() + " | Quarto: " + limpeza.getQuarto().getIdQuarto() + "\n");
 			}
 		} else if (menu == 2) { //INSERIR LIMPEZA -->
 			Limpeza limpeza = new Limpeza();
 			Scanner sc = new Scanner(System.in); //GAMBIARRA PRA O NEXTLINE NAO PULAR ETAPAS
-			System.out.println("Informe a data que a limpeza foi efetuada (dd/mm/aaaa HH:mm):"); limpeza.setData(sc.nextLine());
+			System.out.println("Informe a data e hora que a limpeza foi efetuada (dd/mm/aaaa HH:mm):"); limpeza.setData(sc.nextLine());
 			System.out.println("Informe uma descricao se necessario: (ex: itens quebrados)"); limpeza.setDescricao(sc.nextLine());
 			System.out.println("Informe o funcionario que efetuou a limpeza:");
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getNomeSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 			
-			System.out.println("Digite o (ID) referente:"); limpeza.setIdFuncionario(sc.nextLong());
-			System.out.println("Informe o numero do quarto que foi limpo:"); limpeza.setIdQuarto(sc.nextLong());
+                        Funcionario funcionario = new Funcionario();
+			System.out.println("Digite o (ID) referente:"); funcionario.setIdFuncionario(sc.nextLong());
+                        limpeza.setFuncionario(funcionario);
+                        
+                        Quarto quarto = new Quarto();
+			System.out.println("Informe o numero do quarto que foi limpo:"); quarto.setIdQuarto(sc.nextLong());
+                        limpeza.setQuarto(quarto);
 			
 			limpezaDAO.salvar(limpeza);
-			System.out.println("\n> Limpeza no quarto (" + limpeza.getIdQuarto() + ") cadastrada com sucesso!\n");
+			System.out.println("\n> Limpeza no quarto (" + limpeza.getQuarto().getIdQuarto() + ") cadastrada com sucesso!\n");
 		} else if (menu == 3) { //EDITAR LIMPEZA
 			
 			List<Limpeza> listaLimpeza = limpezaDAO.pesquisar(); //PERCORRE TABELA LIMPEZA
 			for (Limpeza limpeza : listaLimpeza) {
-				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
+				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | Funcionario: " + limpeza.getFuncionario().getNome() + " " + limpeza.getFuncionario().getSobrenome() + " | Quarto: " + limpeza.getQuarto().getIdQuarto() + "\n");
 			}
 			
 			Limpeza limpeza = new Limpeza();
 			System.out.println("Informe o (COD) da limpeza que deseja editar:"); limpeza.setCodLimpeza(sc.nextLong());
 			Scanner sc = new Scanner(System.in); //GAMBIARRA PRA O NEXTLINE NAO PULAR ETAPAS
-			System.out.println("Informe a data que a limpeza foi efetuada (dd/mm/aaaa):"); limpeza.setData(sc.nextLine());
+			System.out.println("Informe a data e hora que a limpeza foi efetuada (dd/mm/aaaa HH:mm):"); limpeza.setData(sc.nextLine());
 			System.out.println("Informe uma descricao se necessario: (ex: itens quebrados)"); limpeza.setDescricao(sc.nextLine());
 			System.out.println("Informe o funcionario que efetuou a limpeza:");
 			
 			List<Funcionario> listaFuncionario = funcionarioDAO.pesquisar(); //PERCORRE TABELA FUNCIONARIO
 			for (Funcionario funcionario : listaFuncionario) {
-				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getCodSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
+				System.out.println("ID: " + funcionario.getIdFuncionario() + " | Setor: " + funcionario.getSetor().getNomeSetor() + " | Nome: " + funcionario.getNome() + " " + funcionario.getSobrenome() +  " | Login: " + funcionario.getLogin() +  " | Senha: " + funcionario.getSenha() +  " | CPF: " + funcionario.getCpf() +  " | Telefone: " + funcionario.getTelefone() + "\n");
 			}
 			
-			System.out.println("Digite o (ID) referente:"); limpeza.setIdFuncionario(sc.nextLong());
-			System.out.println("Informe o numero do quarto que foi limpo:"); limpeza.setIdQuarto(sc.nextLong());
+			System.out.println("Digite o (ID) referente:"); limpeza.getFuncionario().setIdFuncionario(sc.nextLong()); //ver se funciona
+			System.out.println("Informe o numero do quarto que foi limpo:"); limpeza.getQuarto().setIdQuarto(sc.nextLong());
 			limpezaDAO.editar(limpeza);
 			System.out.println("\n> Limpeza editada com sucesso!\n");
 		} else if (menu == 4) { //DELETAR LIMPEZA
 			
 			List<Limpeza> listaLimpeza = limpezaDAO.pesquisar(); //PERCORRE TABELA LIMPEZA
 			for (Limpeza limpeza : listaLimpeza) {
-				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | ID Funcionario: " + limpeza.getIdFuncionario() + " | Quarto: " + limpeza.getIdQuarto() + "\n");
+				System.out.println("COD: " + limpeza.getCodLimpeza() + " | Data/Hora: " + limpeza.getDataSql() + " | Desc.: " + limpeza.getDescricao() + " | Funcionario: " + limpeza.getFuncionario().getNome() + " " + limpeza.getFuncionario().getSobrenome() + " | Quarto: " + limpeza.getQuarto().getIdQuarto() + "\n");
 			}
 			
 			System.out.println("Informe o (COD) da limpeza que deseja deletar:"); limpezaDAO.deletar(sc.nextLong());
@@ -228,7 +237,50 @@ public class MenuImpl implements Menu {
 
 	@Override
 	public void quarto() {
-		// TODO Auto-generated method stub
+            	System.out.println("------------\n1. Listar\n2. Inserir\n3. Editar\n4. Deletar\n------------");
+		menu = sc.nextInt();
+		if (menu == 1) { //LISTAR QUARTOS -->
+			List<Quarto> listaQuarto = quartoDAO.pesquisar(); //PERCORRE TABELA QUARTO
+			for (Quarto quarto : listaQuarto) {
+				System.out.println("Num: " + quarto.getIdQuarto() + " | Categoria: " +quarto.getCategoria().getTipo() + " | Disponivel: " + quarto.isDisponivel() + " | Limpo: " + quarto.isLimpo());
+			}
+		} else if (menu == 2) { //INSERIR QUARTO -->
+                        Quarto quarto = new Quarto();
+			Categoria categoria = new Categoria();
+                        System.out.println("Informe a categoria do quarto:"); categoria.setIdCategoria(sc.nextInt()); //juntar com daocategoria depois
+			System.out.println("Digite 1 para confirmar:");
+                        
+                        quarto.setCategoria(categoria);
+                        quartoDAO.salvar(quarto);
+                        System.out.println("\n> Quarto num. (" + quarto.getIdQuarto() + ") cadastrado com sucesso!\n");
+			
+		} else if (menu == 3) { //EDITAR QUARTO       EM CONSTRUCAAAOOOOOOOOOO
+			
+			List<Quarto> listaQuarto = quartoDAO.pesquisar(); //PERCORRE TABELA QUARTO
+			for (Quarto quarto : listaQuarto) {
+				System.out.println("Num: " + quarto.getIdQuarto() + " | Categoria: " +quarto.getCategoria().getTipo() + " | Disponivel: " + quarto.isDisponivel() + " | Limpo: " + quarto.isLimpo());
+			}
+			
+			Quarto quarto = new Quarto();
+			System.out.println("\nInforme o (Num) do quarto que deseja editar:"); quarto.setIdQuarto(sc.nextLong());
+                        
+                        Categoria categoria = new Categoria();
+			System.out.println("Informe o (ID) da nova categoria para o quarto:"); categoria.setIdCategoria(sc.nextInt()); 
+                        
+                        quarto.setCategoria(categoria);
+			quartoDAO.editar(quarto);
+			System.out.println("\n> Quarto editado com sucesso!\n");
+		} else if (menu == 4) { //DELETAR QUARTO
+			
+			List<Quarto> listaQuarto = quartoDAO.pesquisar(); //PERCORRE TABELA QUARTO
+			for (Quarto quarto : listaQuarto) {
+				System.out.println("Num: " + quarto.getIdQuarto() + " | Categoria: " +quarto.getCategoria().getTipo() + " | Disponivel: " + quarto.isDisponivel() + " | Limpo: " + quarto.isLimpo());
+			}
+			
+			System.out.println("Informe o (Num) do quarto que deseja deletar:"); quartoDAO.deletar(sc.nextLong());
+			System.out.println("\n> Quarto deletado com sucesso!\n");
+		}
+		menu = 0; // ZERA A VARIAVEL PARA O MENU RODAR NOVAMENTE -->
 		
 	}
 
