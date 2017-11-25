@@ -197,6 +197,9 @@ public class MenuImpl implements Menu {
 			System.out.println("Informe o numero do quarto que foi limpo:"); quarto.setIdQuarto(sc.nextLong());
                         limpeza.setQuarto(quarto);
 			
+                        quarto.setStatusLimpeza(1); 
+                        quartoDAO.editarLimpeza(quarto);//MUDA O STATUS DO QUARTO PARA LIMPO
+                        
 			limpezaDAO.salvar(limpeza);
 			System.out.println("\n> Limpeza no quarto (" + limpeza.getQuarto().getIdQuarto() + ") cadastrada com sucesso!\n");
 		} else if (menu == 3) { //EDITAR LIMPEZA
@@ -254,7 +257,7 @@ public class MenuImpl implements Menu {
                         quartoDAO.salvar(quarto);
                         System.out.println("\n> Quarto num. (" + quarto.getIdQuarto() + ") cadastrado com sucesso!\n");
 			
-		} else if (menu == 3) { //EDITAR QUARTO       EM CONSTRUCAAAOOOOOOOOOO
+		} else if (menu == 3) { //EDITAR QUARTO
 			
 			List<Quarto> listaQuarto = quartoDAO.pesquisar(); //PERCORRE TABELA QUARTO
 			for (Quarto quarto : listaQuarto) {
@@ -268,7 +271,7 @@ public class MenuImpl implements Menu {
 			System.out.println("Informe o (ID) da nova categoria para o quarto:"); categoria.setIdCategoria(sc.nextInt()); 
                         
                         quarto.setCategoria(categoria);
-			quartoDAO.editar(quarto);
+			quartoDAO.editarCategoria(quarto);
 			System.out.println("\n> Quarto editado com sucesso!\n");
 		} else if (menu == 4) { //DELETAR QUARTO
 			
