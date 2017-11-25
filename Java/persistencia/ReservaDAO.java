@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import pojo.Quarto;
 import pojo.Reserva;
 
 public class ReservaDAO {
@@ -47,7 +49,7 @@ public class ReservaDAO {
 			PreparedStatement stmt = this.conexao.getConexao().prepareStatement(sql);
 			stmt.setDate(1, new java.sql.Date(reserva.getDataEntrada().getTime()));
 			stmt.setDate(2, new java.sql.Date(reserva.getDataSaida().getTime()));
-			stmt.setLong(3, reserva.getQuarto().getIdQuarto());
+			stmt.setInt(3, reserva.getQuarto().getIdQuarto());
 			stmt.setLong(4, reserva.getCliente().getIdCliente());
 			stmt.setLong(5, reserva.getIdReserva());
 			stmt.executeUpdate();
@@ -89,7 +91,7 @@ public class ReservaDAO {
 				reserva.setIdReserva(rs.getLong("id_reserva"));
 				reserva.setDataEntrada(rs.getDate("data_entrada"));
 				reserva.setDataSaida(rs.getDate("data_saida"));
-				reserva.getQuarto().setIdQuarto(rs.getLong("id_quarto"));
+				reserva.getQuarto().setIdQuarto(rs.getInt("id_quarto"));
 				reserva.getCliente().setIdCliente(rs.getLong("id_cliente"));
 
 			}
@@ -117,7 +119,7 @@ public class ReservaDAO {
 				reserva.setIdReserva(rs.getLong("id_reserva"));
 				reserva.setDataEntrada(rs.getDate("data_entrada"));
 				reserva.setDataSaida(rs.getDate("data_saida"));
-				reserva.getQuarto().setIdQuarto(rs.getLong("id_quarto"));
+				reserva.getQuarto().setIdQuarto(rs.getInt("id_quarto"));
 				reserva.getCliente().setIdCliente(rs.getLong("id_cliente"));
 				listaReservas.add(reserva);
 			}
@@ -129,4 +131,36 @@ public class ReservaDAO {
 
 		return listaReservas;
 	}
+
+	// METODO QUE PEGA O PRIMEIRO QUARTO DA LISTA DE DISPONÍVEIS DE ACORDO COM A CATEGORIA ESCOLHIDA
+	public Quarto sortearQuarto(int id) {
+		List<Quarto> listaIds = new ArrayList<Quarto>();
+		String sql = "SELECT * FROM quarto WHERE disponivel=1 AND id_categoria = ?";
+		this.conexao.abrirConexao();
+		Quarto quartoReservado =  null;
+		try {
+			PreparedStatement stmt = conexao.getConexao().prepareStatement(sql);
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Quarto quarto = new Quarto();
+				quarto.setIdQuarto(rs.getInt("id_quarto"));
+				quarto.setStatusDisponivel(rs.getInt("disponivel"));
+				quarto.setStatusLimpeza(rs.getInt("limpo"));
+				quarto.getCategoria().setIdCategoria(rs.getInt("id_categoria"));
+				listaIds.add(quarto);
+			}
+			if (!listaIds.isEmpty()) {
+				quartoReservado = listaIds.get(0);
+				quartoReservado.setStatusDisponivel(0);
+				QuartoDAO quartoDAO = new QuartoDAO();
+				quartoDAO.editar(quartoReservado);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return quartoReservado;
+	}
+
 }
