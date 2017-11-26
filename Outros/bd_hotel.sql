@@ -1,7 +1,5 @@
 CREATE DATABASE bd_hotel;
 
-##DROP DATABASE bd_hotel;
-
 USE bd_hotel;
 
 CREATE TABLE setor(
@@ -38,7 +36,7 @@ disponivel TINYINT NOT NULL,
 limpo TINYINT NOT NULL,
 id_categoria TINYINT NOT NULL,
 PRIMARY KEY(id_quarto),
-FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
+FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE limpeza(
@@ -70,16 +68,6 @@ data_saida DATE NOT NULL,
 id_quarto SMALLINT NOT NULL,
 id_cliente BIGINT NOT NULL,
 PRIMARY KEY(id_reserva),
-FOREIGN KEY(id_quarto) REFERENCES quarto(id_quarto),
-FOREIGN KEY(id_cliente) REFERENCES cliente(id_cliente)
+FOREIGN KEY(id_quarto) REFERENCES quarto(id_quarto) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(id_cliente) REFERENCES cliente(id_cliente) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-CREATE TABLE pagamento(
-cod_pagamento BIGINT UNIQUE NOT NULL AUTO_INCREMENT,
-valor_entrada DOUBLE,
-valor_total DOUBLE NOT NULL,
-PRIMARY KEY(cod_pagamento)
-);
-
-##INSERT INTO categoria (id_categoria, tipo, descricao, valor_diaria) VALUES (null, 'aaaa', 'descricao teste', 300.00);
-##INSERT INTO quarto (id_quarto, disponivel, limpo, id_categoria) VALUES (null, true, true, 1);
